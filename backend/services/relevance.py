@@ -16,7 +16,7 @@ from backend.config import settings
 
 logger = logging.getLogger(__name__)
 
-MODEL = "claude-3-5-sonnet-20241022"
+MODEL = "claude-sonnet-4-20250514"
 _PROMPT_PATH = Path(__file__).parent.parent / "prompts" / "relevance.txt"
 
 # Module-level client — created once and reused across calls.

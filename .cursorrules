@@ -6,7 +6,7 @@ You are an expert Python engineer building a fast, modular backend for the Sonia
 - Framework: FastAPI (Python)
 - Database: SQLite via SQLAlchemy (strictly local, zero config)
 - Data Validation: Pydantic v2
-- AI SDK: Anthropic Python SDK (claude-3-5-sonnet-20241022)
+- AI SDK: Anthropic Python SDK (claude-sonnet-4-20250514)
 
 ## Architectural Constraints (CRITICAL)
 Always adhere to the following modular structure. Do not mix database models, API routing, and AI logic into a single file.
