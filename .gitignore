@@ -1,1 +1,12 @@
 .env
+
+
+# Python caches
+**/__pycache__/
+*.pyc
+
+# Frontend specific dependencies and builds
+frontend/node_modules/
+frontend/dist/
+node_modules/
+dist/

@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS custom properties — mirror Sonia brand exactly ──────────────────── */
+:root {
+  --font-serif: "Libre Baskerville", Georgia, serif;
+  --font-sans:  "Source Sans 3", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Semantic color aliases for use outside Tailwind utility classes */
+  --color-bg:             oklch(97.5% 0.008 75);
+  --color-surface:        oklch(100% 0 0);
+  --color-surface-raised: oklch(99% 0.004 75);
+  --color-text-primary:   oklch(22% 0.010 70);
+  --color-text-secondary: oklch(57% 0.010 70);
+  --color-text-tertiary:  oklch(73.5% 0.011 70);
+  --color-border:         oklch(91.5% 0.010 75);
+  --color-border-subtle:  oklch(94% 0.009 75);
+  --color-accent-sky:     oklch(79.5% 0.033 232);
+  --color-accent-sage:    oklch(83% 0.036 152);
+  --color-accent-lavender:oklch(82% 0.029 330);
+  --color-accent-sand:    oklch(83% 0.022 90);
+
+  /* Transition speeds */
+  --t-fast:   150ms ease;
+  --t-normal: 300ms ease;
+  --t-slow:   500ms ease;
+}
+
+/* ─── Base reset & typography ────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    font-size: 16px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-text-primary);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--t-fast);
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  ::selection {
+    background-color: oklch(84% 0.065 232 / 0.3);
+    color: var(--color-text-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-text-primary);
+    outline-offset: 2px;
+  }
+
+  /* Custom scrollbar — understated, warm */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-tertiary);
+  }
+}
+
+/* ─── Component layer ────────────────────────────────────────────────────── */
+@layer components {
+  /* Organic blob — base styles; animation class applied in JSX */
+  .blob {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+    filter: blur(48px);
+    will-change: border-radius, transform;
+  }
+
+  /* Card surface */
+  .card {
+    @apply bg-white rounded-xl border border-cream-300 shadow-card;
+  }
+
+  /* Badge shell */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-pill text-xs font-medium tracking-wide;
+  }
+
+  /* Safe / Flagged / Blocked badge variants */
+  .badge-safe {
+    @apply badge bg-safe-bg text-safe-text;
+  }
+  .badge-flagged {
+    @apply badge bg-flagged-bg text-flagged-text;
+  }
+  .badge-blocked {
+    @apply badge bg-blocked-bg text-blocked-text;
+  }
+
+  /* Primary action button */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-md
+           bg-cream-900 text-cream-50 text-sm font-medium
+           transition-all duration-200 hover:bg-cream-800
+           focus-visible:ring-2 focus-visible:ring-cream-900 focus-visible:ring-offset-2;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-md
+           text-cream-700 text-sm font-medium
+           border border-cream-300 bg-transparent
+           transition-all duration-200 hover:bg-cream-200 hover:border-cream-400
+           focus-visible:ring-2 focus-visible:ring-cream-700 focus-visible:ring-offset-2;
+  }
+
+  /* Approve / Reject / Flag action buttons */
+  .btn-approve {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-md
+           bg-safe-bg text-safe-text text-sm font-medium
+           border border-safe-ring/30
+           transition-all duration-200 hover:bg-safe-ring/20;
+  }
+  .btn-reject {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-md
+           bg-cream-100 text-cream-700 text-sm font-medium
+           border border-cream-300
+           transition-all duration-200 hover:bg-cream-200;
+  }
+  .btn-flag {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-md
+           bg-blocked-bg text-blocked-text text-sm font-medium
+           border border-blocked-ring/30
+           transition-all duration-200 hover:bg-blocked-ring/20;
+  }
+
+  /* Relevance score dot */
+  .score-dot {
+    @apply w-2 h-2 rounded-full inline-block;
+  }
+}
+
+/* ─── Utilities ──────────────────────────────────────────────────────────── */
+@layer utilities {
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+  .font-sans {
+    font-family: var(--font-sans);
+  }
+
+  /* Truncate to exactly N lines */
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Reduced motion — turn off decorative animations */
+  @media (prefers-reduced-motion: reduce) {
+    .blob,
+    [class*="animate-blob"] {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
