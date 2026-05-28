@@ -20,6 +20,8 @@ const INITIAL_FILTERS = {
   search: '',
 }
 
+const INITIAL_STATUS = 'pending'
+
 function SoniaLogo() {
   return (
     <svg
@@ -121,6 +123,7 @@ function ErrorBanner({ message, onDismiss }) {
 
 export default function Dashboard() {
   const [filters, setFilters] = useState(INITIAL_FILTERS)
+  const [statusFilter, setStatusFilter] = useState(INITIAL_STATUS)
   const [posts, setPosts] = useState([])
   const [totalPosts, setTotalPosts] = useState(0)
   const [stats, setStats] = useState(null)
@@ -151,6 +154,9 @@ export default function Dashboard() {
       if (filters.safety_status) {
         params.safety_status = filters.safety_status
       }
+      if (statusFilter && statusFilter !== 'all') {
+        params.status = statusFilter
+      }
       const data = await fetchPosts(params)
       const allPosts = data.posts ?? []
       const search = debouncedSearch.trim().toLowerCase()
@@ -170,7 +176,7 @@ export default function Dashboard() {
     } finally {
       setLoading(false)
     }
-  }, [filters.platform, filters.safety_status, debouncedSearch])
+  }, [filters.platform, filters.safety_status, statusFilter, debouncedSearch])
 
   const loadStats = useCallback(async () => {
     setStatsLoading(true)
@@ -210,7 +216,8 @@ export default function Dashboard() {
   const hasActiveFilters =
     filters.platform !== 'all' ||
     filters.safety_status !== null ||
-    filters.search.trim() !== ''
+    filters.search.trim() !== '' ||
+    statusFilter !== INITIAL_STATUS
 
   return (
     <div className="relative animate-fade-in-up overflow-hidden">
@@ -229,7 +236,12 @@ export default function Dashboard() {
           </div>
         )}
 
-        <FilterBar filters={filters} onChange={setFilters} />
+        <FilterBar
+          filters={filters}
+          onChange={setFilters}
+          statusFilter={statusFilter}
+          setStatusFilter={setStatusFilter}
+        />
 
         <PostFeed
           posts={posts}
