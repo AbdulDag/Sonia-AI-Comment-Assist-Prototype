@@ -11,6 +11,7 @@ import { RefreshCw, AlertCircle } from 'lucide-react'
 import StatsBar from '../components/StatsBar'
 import FilterBar from '../components/FilterBar'
 import PostFeed from '../components/PostFeed'
+import GrassEffect from '../components/GrassEffect'
 import { fetchPosts, fetchStats, ingestPosts } from '../utils/api'
 
 const INITIAL_FILTERS = {
@@ -212,7 +213,10 @@ export default function Dashboard() {
     filters.search.trim() !== ''
 
   return (
-    <div className="animate-fade-in-up">
+    <div className="relative animate-fade-in-up overflow-hidden">
+      <GrassEffect />
+
+      <div className="relative z-10">
       <Navbar onIngest={handleIngest} ingesting={ingesting} />
 
       <main className="max-w-content mx-auto px-6 py-8 flex flex-col gap-6">
@@ -234,6 +238,7 @@ export default function Dashboard() {
           total={totalPosts}
         />
       </main>
+      </div>
     </div>
   )
 }
