@@ -35,7 +35,7 @@ import {
   MessageCircle,
   Loader2,
 } from 'lucide-react'
-import { generateDraft, submitReview } from '../utils/api'
+import { generateDraft, submitReview, overrideSafety } from '../utils/api'
 
 // ─── Static maps ─────────────────────────────────────────────────────────────
 
@@ -191,11 +191,18 @@ export default function ReviewPanel({ post, onComplete }) {
   const [submitError, setSubmitError]   = useState(null)
   const [historyOpen, setHistoryOpen]   = useState(false)
 
-  const textareaRef      = useRef(null)
-  const handleActionRef  = useRef(null)   // stable ref so keyboard handler always calls latest
-  const didAutoGenerate  = useRef(false)
+  const [steeringPrompt, setSteeringPrompt]       = useState('')
+  const [safetyStatusLocal, setSafetyStatusLocal] = useState(post.safety_status)
+  const [safetyPopoverOpen, setSafetyPopoverOpen] = useState(false)
+  const [isSafetyOverriding, setIsSafetyOverriding] = useState(false)
+  const [safetyOverrideError, setSafetyOverrideError] = useState(null)
 
-  const isBlocked  = post.safety_status === 'blocked'
+  const textareaRef      = useRef(null)
+  const handleActionRef  = useRef(null)
+  const didAutoGenerate  = useRef(false)
+  const safetyBadgeRef   = useRef(null)
+
+  const isBlocked  = safetyStatusLocal === 'blocked'
   const isModified = draft != null && draftText !== draft.draft_text
   const platform   = PLATFORM_META[post.platform] ?? { Icon: Globe, label: post.platform, color: 'text-cream-500' }
   const source     = post.subreddit
@@ -257,7 +264,9 @@ export default function ReviewPanel({ post, onComplete }) {
     setIsGenerating(true)
     setGenerateError(null)
     try {
-      const result = await generateDraft(post.id, { regenerate: true })
+      const options = {}
+      if (steeringPrompt.trim()) options.steering_prompt = steeringPrompt.trim()
+      const result = await generateDraft(post.id, options)
       setDraft(result.draft)
       setDraftText(result.draft.draft_text)
     } catch (err) {
@@ -266,6 +275,34 @@ export default function ReviewPanel({ post, onComplete }) {
       setIsGenerating(false)
     }
   }
+
+  // ── Manual safety override ────────────────────────────────────────────────
+  async function handleSafetyOverride(newStatus) {
+    setSafetyPopoverOpen(false)
+    if (newStatus === safetyStatusLocal || isSafetyOverriding) return
+    setIsSafetyOverriding(true)
+    setSafetyOverrideError(null)
+    try {
+      await overrideSafety(post.id, newStatus)
+      setSafetyStatusLocal(newStatus)
+    } catch (err) {
+      setSafetyOverrideError(err.message ?? 'Failed to update safety status.')
+    } finally {
+      setIsSafetyOverriding(false)
+    }
+  }
+
+  // ── Close safety popover on outside click ─────────────────────────────────
+  useEffect(() => {
+    if (!safetyPopoverOpen) return
+    function handleOutside(e) {
+      if (safetyBadgeRef.current && !safetyBadgeRef.current.contains(e.target)) {
+        setSafetyPopoverOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleOutside)
+    return () => document.removeEventListener('mousedown', handleOutside)
+  }, [safetyPopoverOpen])
 
   // ── Global keyboard shortcuts ─────────────────────────────────────────────
   // Disabled when user is actively typing inside any input or textarea.
@@ -451,6 +488,86 @@ export default function ReviewPanel({ post, onComplete }) {
           ════════════════════════════════════════════════════════════════════ */}
       <aside className="lg:sticky lg:top-8 space-y-3">
 
+        {/* ── Safety status override ───────────────────────────────────────── */}
+        <div className="relative z-10 rounded-xl bg-white/80 backdrop-blur-sm border border-cream-200 shadow-card px-5 py-4">
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="text-xs font-semibold text-cream-500 uppercase tracking-wider">
+              Safety Status
+            </h2>
+            <div className="relative" ref={safetyBadgeRef}>
+              <button
+                type="button"
+                onClick={() => setSafetyPopoverOpen((v) => !v)}
+                disabled={isSafetyOverriding}
+                aria-expanded={safetyPopoverOpen}
+                aria-haspopup="listbox"
+                className={[
+                  'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill',
+                  'text-xs font-medium transition-all duration-150 cursor-pointer',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1',
+                  'disabled:opacity-40 disabled:cursor-not-allowed',
+                  safetyStatusLocal === 'safe'    ? 'bg-safe-bg text-safe-text focus-visible:ring-safe-ring' :
+                  safetyStatusLocal === 'flagged' ? 'bg-flagged-bg text-flagged-text focus-visible:ring-flagged-ring' :
+                  safetyStatusLocal === 'blocked' ? 'bg-blocked-bg text-blocked-text focus-visible:ring-blocked-ring' :
+                  'bg-cream-200 text-cream-500 focus-visible:ring-cream-400',
+                ].join(' ')}
+              >
+                {isSafetyOverriding ? (
+                  <Loader2 size={10} strokeWidth={2} className="animate-spin" aria-hidden="true" />
+                ) : (
+                  <ChevronDown size={10} strokeWidth={2.5} aria-hidden="true" />
+                )}
+                {safetyStatusLocal === 'safe'    ? 'Safe'    :
+                 safetyStatusLocal === 'flagged' ? 'Flagged' :
+                 safetyStatusLocal === 'blocked' ? 'Blocked' :
+                 'Pending'}
+              </button>
+
+              {safetyPopoverOpen && (
+                <div
+                  role="listbox"
+                  aria-label="Override safety status"
+                  className={[
+                    'absolute right-0 top-full mt-1.5 z-50',
+                    'min-w-[148px] rounded-xl overflow-hidden',
+                    'bg-white border border-cream-200',
+                    'shadow-[0_8px_24px_oklch(22%_0.01_70_/_0.10),0_2px_6px_oklch(22%_0.01_70_/_0.06)]',
+                  ].join(' ')}
+                >
+                  {[
+                    { value: 'safe',    label: 'Safe',    activeCls: 'text-safe-text',    hoverCls: 'hover:bg-safe-bg/60' },
+                    { value: 'flagged', label: 'Flagged', activeCls: 'text-flagged-text', hoverCls: 'hover:bg-flagged-bg/60' },
+                    { value: 'blocked', label: 'Blocked', activeCls: 'text-blocked-text', hoverCls: 'hover:bg-blocked-bg/60' },
+                  ].map(({ value, label, activeCls, hoverCls }) => (
+                    <button
+                      key={value}
+                      role="option"
+                      type="button"
+                      aria-selected={safetyStatusLocal === value}
+                      onClick={() => handleSafetyOverride(value)}
+                      className={[
+                        'flex items-center justify-between gap-3 w-full px-4 py-2.5 text-left',
+                        'text-xs transition-colors duration-100',
+                        activeCls,
+                        hoverCls,
+                        safetyStatusLocal === value ? 'font-semibold' : 'font-medium',
+                      ].join(' ')}
+                    >
+                      {label}
+                      {safetyStatusLocal === value && (
+                        <CheckCircle2 size={11} strokeWidth={2.5} aria-hidden="true" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          {safetyOverrideError && (
+            <p className="text-xs text-blocked-text mt-2" role="alert">{safetyOverrideError}</p>
+          )}
+        </div>
+
         {/* Blocked post notice */}
         {isBlocked && (
           <div className="rounded-lg bg-blocked-bg/60 border border-blocked-ring/20 px-4 py-3.5">
@@ -547,22 +664,48 @@ export default function ReviewPanel({ post, onComplete }) {
             />
           </div>
 
-          {/* Regenerate button */}
+          {/* Steering input + regenerate */}
           {!isBlocked && (
-            <button
-              type="button"
-              onClick={handleGenerate}
-              disabled={isGenerating || isSubmitting}
-              className="inline-flex items-center gap-1.5 text-xs text-cream-400 hover:text-cream-800 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <RefreshCcw
-                size={12}
-                strokeWidth={2}
-                className={isGenerating ? 'animate-spin' : ''}
-                aria-hidden="true"
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={steeringPrompt}
+                onChange={(e) => setSteeringPrompt(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleGenerate() }}
+                placeholder="E.g., Make it shorter, sound more empathetic..."
+                disabled={isGenerating || isSubmitting}
+                aria-label="Steering instructions for draft regeneration"
+                className={[
+                  'flex-1 min-w-0 rounded-lg px-3 py-2',
+                  'bg-[oklch(98.5%_0.006_75)] border border-cream-200',
+                  'text-xs text-cream-900 placeholder:text-cream-300',
+                  'transition-all duration-150',
+                  'focus:outline-none focus:border-cream-400 focus:ring-2 focus:ring-cream-300/40',
+                  'disabled:opacity-40 disabled:cursor-not-allowed',
+                ].join(' ')}
               />
-              Regenerate draft
-            </button>
+              <button
+                type="button"
+                onClick={handleGenerate}
+                disabled={isGenerating || isSubmitting}
+                aria-label="Regenerate draft"
+                className={[
+                  'flex items-center justify-center w-8 h-8 rounded-lg shrink-0',
+                  'text-cream-500 bg-[oklch(97%_0.007_75)] border border-cream-200',
+                  'hover:text-cream-800 hover:bg-cream-100 hover:border-cream-300',
+                  'transition-all duration-150',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream-300/50',
+                  'disabled:opacity-40 disabled:cursor-not-allowed',
+                ].join(' ')}
+              >
+                <RefreshCcw
+                  size={13}
+                  strokeWidth={2}
+                  className={isGenerating ? 'animate-spin' : ''}
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
           )}
         </div>
 

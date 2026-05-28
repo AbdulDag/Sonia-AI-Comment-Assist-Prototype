@@ -79,16 +79,27 @@ export function ingestPosts(options = {}) {
 
 /**
  * Generate (or regenerate) a comment draft for a post.
- * Passing { regenerate: true } explicitly requests a fresh draft even if one
- * already exists.
  *
  * @param {string} postId
  * @param {Object} [options]
- * @param {boolean} [options.regenerate=false]
+ * @param {string}  [options.steering_prompt] - Optional reviewer instruction to guide the draft
  * @returns {Promise<Draft>}
  */
 export function generateDraft(postId, options = {}) {
-  return http.post(`/api/posts/${postId}/draft`, options)
+  const payload = {}
+  if (options.steering_prompt?.trim()) payload.steering_prompt = options.steering_prompt.trim()
+  return http.post(`/api/posts/${postId}/draft`, payload)
+}
+
+/**
+ * Manually override the safety classification of a post.
+ *
+ * @param {string} postId
+ * @param {"safe"|"flagged"|"blocked"} safetyStatus
+ * @returns {Promise<{ post_id: string, safety_status: string }>}
+ */
+export function overrideSafety(postId, safetyStatus) {
+  return http.patch(`/api/posts/${postId}/safety`, { safety_status: safetyStatus })
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -131,6 +142,7 @@ const api = {
   fetchPost,
   ingestPosts,
   generateDraft,
+  overrideSafety,
   submitReview,
   fetchStats,
 }

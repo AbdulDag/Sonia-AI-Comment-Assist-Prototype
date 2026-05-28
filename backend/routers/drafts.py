@@ -6,12 +6,12 @@ POST /api/posts/{id}/draft
 
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from backend.database import get_db
 from backend.models import DraftComment, Post
-from backend.schemas import DraftOut, DraftResponse
+from backend.schemas import DraftOut, DraftRequest, DraftResponse
 from backend.services import draft_comment
 
 logger = logging.getLogger(__name__)
@@ -26,7 +26,11 @@ def _build_post_content(post: Post) -> str:
 
 
 @router.post("/{post_id}/draft", response_model=DraftResponse)
-def generate_draft(post_id: str, db: Session = Depends(get_db)) -> DraftResponse:
+def generate_draft(
+    post_id: str,
+    body: DraftRequest = Body(default_factory=DraftRequest),
+    db: Session = Depends(get_db),
+) -> DraftResponse:
     """
     Generate a new comment draft for the given post.
 
@@ -36,6 +40,9 @@ def generate_draft(post_id: str, db: Session = Depends(get_db)) -> DraftResponse
 
     Blocked posts are rejected — drafting is only allowed for safe or
     flagged (reviewer-approved) posts.
+
+    An optional steering_prompt in the request body is forwarded to the
+    LLM to guide the tone or length of the regenerated draft.
     """
     post = db.query(Post).filter(Post.id == post_id).first()
     if not post:
@@ -50,7 +57,7 @@ def generate_draft(post_id: str, db: Session = Depends(get_db)) -> DraftResponse
     content = _build_post_content(post)
 
     try:
-        draft_text = draft_comment(content)
+        draft_text = draft_comment(content, steering_prompt=body.steering_prompt)
     except Exception as exc:
         logger.error("draft: LLM call failed for post %s — %s", post_id, exc)
         raise HTTPException(

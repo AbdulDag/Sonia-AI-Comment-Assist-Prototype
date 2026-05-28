@@ -7,7 +7,7 @@ with from_attributes=True, since the field requires decoding from Text.
 """
 
 from datetime import datetime
-from typing import Optional
+from typing import Literal, Optional
 
 from pydantic import BaseModel, field_validator
 
@@ -164,6 +164,10 @@ class IngestResponse(BaseModel):
 # ---------------------------------------------------------------------------
 
 
+class DraftRequest(BaseModel):
+    steering_prompt: Optional[str] = None
+
+
 class DraftResponse(BaseModel):
     draft: DraftOut
     post_id: str
@@ -238,3 +242,17 @@ class StatsResponse(BaseModel):
     decisions: DecisionBreakdown
     avg_relevance_score: Optional[float] = None
     approval_rate: Optional[float] = None
+
+
+# ---------------------------------------------------------------------------
+# Safety override
+# ---------------------------------------------------------------------------
+
+
+class SafetyOverrideRequest(BaseModel):
+    safety_status: Literal["safe", "flagged", "blocked"]
+
+
+class SafetyOverrideResponse(BaseModel):
+    post_id: str
+    safety_status: str

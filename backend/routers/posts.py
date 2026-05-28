@@ -24,7 +24,14 @@ from sqlalchemy.orm import Session
 
 from backend.database import get_db
 from backend.models import Post
-from backend.schemas import IngestResponse, PostDetail, PostListResponse, PostSummary
+from backend.schemas import (
+    IngestResponse,
+    PostDetail,
+    PostListResponse,
+    PostSummary,
+    SafetyOverrideRequest,
+    SafetyOverrideResponse,
+)
 from backend.services import classify_safety, score_relevance
 
 logger = logging.getLogger(__name__)
@@ -250,6 +257,36 @@ def ingest_posts(
             counts["errors"] += 1
 
     return IngestResponse(**counts)
+
+
+# ---------------------------------------------------------------------------
+# PATCH /api/posts/{post_id}/safety
+# NOTE: declared before /{post_id} so FastAPI matches the literal "/safety"
+# suffix before treating it as a nested path parameter.
+# ---------------------------------------------------------------------------
+
+
+@router.patch("/{post_id}/safety", response_model=SafetyOverrideResponse)
+def override_safety(
+    post_id: str,
+    body: SafetyOverrideRequest,
+    db: Session = Depends(get_db),
+) -> SafetyOverrideResponse:
+    """
+    Manually override the safety classification of a post.
+
+    Allows reviewers to force a post's safety_status to safe, flagged, or
+    blocked without going through the AI pipeline.  The change is persisted
+    immediately and reflected in all subsequent API responses.
+    """
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+
+    post.safety_status = body.safety_status
+    db.commit()
+
+    return SafetyOverrideResponse(post_id=post_id, safety_status=body.safety_status)
 
 
 # ---------------------------------------------------------------------------

@@ -52,7 +52,7 @@ def _count_sentences(text: str) -> int:
     return len([s for s in sentences if s])
 
 
-def draft_comment(post_content: str) -> str:
+def draft_comment(post_content: str, steering_prompt: str | None = None) -> str:
     """Draft a comment for a post that has already passed safety screening.
 
     The system prompt enforces the 2–4 sentence limit and bans medical claims
@@ -63,6 +63,8 @@ def draft_comment(post_content: str) -> str:
         post_content: The raw text of the post (title + body, or body alone).
             Only call this for posts whose safety classification is "allow" or
             "flag" with explicit reviewer approval — never for "block" posts.
+        steering_prompt: Optional reviewer instruction appended to the system
+            prompt to guide tone, length, or framing of the regenerated draft.
 
     Returns:
         A plain-text comment string ready for human review.
@@ -73,6 +75,12 @@ def draft_comment(post_content: str) -> str:
     """
     client = _get_client()
     system_prompt = _load_system_prompt()
+
+    if steering_prompt and steering_prompt.strip():
+        system_prompt = (
+            f"{system_prompt}\n\n"
+            f"The reviewer has requested the following adjustment: {steering_prompt.strip()}"
+        )
 
     response = client.messages.create(
         model=MODEL,
