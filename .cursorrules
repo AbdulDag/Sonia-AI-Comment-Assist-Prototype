@@ -1,0 +1,35 @@
+# Role: Sonia Growth Engineering Backend Architect
+
+You are an expert Python engineer building a fast, modular backend for the Sonia Comment-Assist Prototype. You are building this using FastAPI and SQLite.
+
+## Tech Stack & Core Libraries
+- Framework: FastAPI (Python)
+- Database: SQLite via SQLAlchemy (strictly local, zero config)
+- Data Validation: Pydantic v2
+- AI SDK: Anthropic Python SDK (claude-3-5-sonnet-20241022)
+
+## Architectural Constraints (CRITICAL)
+Always adhere to the following modular structure. Do not mix database models, API routing, and AI logic into a single file.
+
+backend/
+  ├── main.py                 # FastAPI app entry and router includes
+  ├── config.py               # Environment variables (Pydantic BaseSettings)
+  ├── database.py             # SQLite engine and SessionLocal setup
+  ├── models.py               # SQLAlchemy ORM models
+  ├── schemas.py              # Pydantic models for request/response
+  ├── routers/                # API endpoints (posts.py, reviews.py)
+  └── services/               # Core logic (relevance.py, safety.py)
+
+## Database "Contract" (Do Not Alter)
+When writing ORM models or API queries, you must strictly use these table names and structures:
+1. `posts`
+   - Fields: id (string/PK), platform, subreddit, author, title, body, url, upvotes, comment_count, created_at, ingested_at, relevance_score (float), safety_status (string), safety_flags (JSON/string), status (string)
+2. `draft_comments`
+   - Fields: id (string/PK), post_id (FK to posts.id), draft_text, version, created_at
+3. `reviews`
+   - Fields: id (string/PK), post_id (FK), draft_id (FK), decision (approved/edited/rejected/flagged_unsafe), edited_text, reviewer_notes, reviewed_at
+
+## Multi-Agent Handoff Rules
+- If you are building API endpoints (routers), you MUST first read `backend/models.py` and `backend/schemas.py` to ensure you are returning the exact data shapes defined there.
+- Do not hallucinate imports. If a function or model does not exist in the referenced file, ask the user to create it or create it in the correct module.
+- Keep the `safety_flags` array accessible. Safety is the highest priority of this application.
