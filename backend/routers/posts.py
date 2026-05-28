@@ -2,19 +2,23 @@
 Posts router — list, detail, and batch ingestion endpoints.
 
 GET  /api/posts           — paginated + filterable post list
+GET  /api/posts/export    — download all posts as a CSV file
 GET  /api/posts/{id}      — single post with all drafts and reviews
 POST /api/posts/ingest    — load mock data through the AI pipeline and persist
 
-Route declaration order matters: /ingest must be registered before /{post_id}
-so FastAPI does not treat the literal string "ingest" as a path parameter.
+Route declaration order matters: /export and /ingest must be registered before
+/{post_id} so FastAPI does not treat those literal strings as path parameters.
 """
 
+import csv
+import io
 import json
 import logging
 from datetime import datetime
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import StreamingResponse
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
@@ -114,6 +118,38 @@ def list_posts(
         page=page,
         limit=limit,
         pages=pages,
+    )
+
+
+# ---------------------------------------------------------------------------
+# GET /api/posts/export
+# NOTE: declared before /{post_id} to prevent "export" matching the path param
+# ---------------------------------------------------------------------------
+
+
+@router.get("/export")
+def export_posts(db: Session = Depends(get_db)) -> StreamingResponse:
+    posts = db.query(Post).all()
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow([
+        "id", "platform", "subreddit", "author", "title",
+        "relevance_score", "safety_status", "safety_flags", "status",
+        "created_at", "url"
+    ])
+    for p in posts:
+        writer.writerow([
+            p.id, p.platform, p.subreddit, p.author, p.title,
+            p.relevance_score, p.safety_status, p.safety_flags,
+            p.status, p.created_at, p.url
+        ])
+
+    output.seek(0)
+    return StreamingResponse(
+        io.BytesIO(output.getvalue().encode()),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=posts.csv"}
     )
 
 
