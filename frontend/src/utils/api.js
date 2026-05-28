@@ -46,6 +46,7 @@ export function fetchPosts(filters = {}) {
   if (filters.status)        params.status        = filters.status
   if (filters.page  != null) params.page          = filters.page
   if (filters.limit != null) params.limit         = filters.limit
+  if (filters.safety_status === 'blocked') params.include_blocked = true
 
   return http.get('/api/posts', { params })
 }
