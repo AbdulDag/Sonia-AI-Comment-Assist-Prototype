@@ -21,7 +21,11 @@ An internal growth tool for Sonia's team. It ingests realistic mock data for pla
 pip install -r requirements.txt
 
 # Copy and fill in environment variables
+# Mac/Linux
 cp .env.example .env
+
+# Windows
+copy .env.example .env
 # Edit .env — at minimum set ANTHROPIC_API_KEY
 ```
 

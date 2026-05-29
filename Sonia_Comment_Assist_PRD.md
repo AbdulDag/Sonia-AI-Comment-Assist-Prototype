@@ -229,11 +229,6 @@ Rules:
 Post: {post_content}
 ```
 
-**Example output:**
-
-Post: *"I can't afford $200/session for therapy and I feel like I'm drowning in anxiety. Does anyone know cheaper alternatives?"*
-
-Draft comment: *"I was in a really similar spot a few months ago — the cost barrier is so frustrating. A friend recommended an app called Sonia to me and honestly it's been helping me work through some of my anxiety patterns. It's not a replacement for a therapist but it's been a solid support system between sessions (or when you can't access them). Might be worth checking out."*
 
 ---
 
