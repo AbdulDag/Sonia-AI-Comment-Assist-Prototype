@@ -1,14 +1,15 @@
 """
 Comment drafting service.
 
-Calls Claude to write a warm, human-sounding comment that Sonia's growth
-team can review before posting.  The output is plain text (no JSON).
+Calls Claude to write a concise, transparent comment from the Sonia team
+that the growth team can review before posting. The output is plain text (no JSON).
 
 Hard constraints enforced via the system prompt:
-  - 2–4 sentences maximum
+  - 3 sentences maximum
+  - Written from an explicit Sonia team member perspective (no fake third-party framing)
   - No medical claims, no diagnosis language
   - No fear-based or manipulative language
-  - Frame as personal experience, not advertising
+  - No em dashes; banned words: ambient dread, stressor, journey, delve, navigating
 """
 
 import logging
@@ -55,9 +56,10 @@ def _count_sentences(text: str) -> int:
 def draft_comment(post_content: str, steering_prompt: str | None = None) -> str:
     """Draft a comment for a post that has already passed safety screening.
 
-    The system prompt enforces the 2–4 sentence limit and bans medical claims
-    or manipulative language.  A single LLM call is made; the output is
-    returned as-is after light cleanup (stripping wrapper quotes).
+    The system prompt enforces the 3-sentence limit, requires an explicit Sonia
+    team voice, and bans medical claims, manipulative language, em dashes, and
+    a specific set of overused wellness buzzwords. A single LLM call is made;
+    the output is returned as-is after light cleanup (stripping wrapper quotes).
 
     Args:
         post_content: The raw text of the post (title + body, or body alone).
@@ -100,9 +102,9 @@ def draft_comment(post_content: str, steering_prompt: str | None = None) -> str:
         raise ValueError("draft_comment: LLM returned an empty response")
 
     sentence_count = _count_sentences(draft)
-    if sentence_count > 4:
+    if sentence_count > 3:
         logger.warning(
-            "draft_comment: response has %d sentences (expected 2–4); "
+            "draft_comment: response has %d sentences (expected max 3); "
             "returning as-is for human review",
             sentence_count,
         )

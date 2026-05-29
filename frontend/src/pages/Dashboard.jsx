@@ -22,6 +22,19 @@ const INITIAL_FILTERS = {
 
 const INITIAL_STATUS = 'pending'
 
+function readFilters() {
+  try {
+    const raw = sessionStorage.getItem('dashboard-filters')
+    return raw ? JSON.parse(raw) : INITIAL_FILTERS
+  } catch {
+    return INITIAL_FILTERS
+  }
+}
+
+function readStatus() {
+  return sessionStorage.getItem('dashboard-status') ?? INITIAL_STATUS
+}
+
 function SoniaLogo() {
   return (
     <svg
@@ -122,8 +135,8 @@ function ErrorBanner({ message, onDismiss }) {
 }
 
 export default function Dashboard() {
-  const [filters, setFilters] = useState(INITIAL_FILTERS)
-  const [statusFilter, setStatusFilter] = useState(INITIAL_STATUS)
+  const [filters, setFilters] = useState(readFilters)
+  const [statusFilter, setStatusFilter] = useState(readStatus)
   const [posts, setPosts] = useState([])
   const [totalPosts, setTotalPosts] = useState(0)
   const [stats, setStats] = useState(null)
@@ -142,6 +155,14 @@ export default function Dashboard() {
     }, 300)
     return () => clearTimeout(searchDebounce.current)
   }, [filters.search])
+
+  useEffect(() => {
+    sessionStorage.setItem('dashboard-filters', JSON.stringify(filters))
+  }, [filters])
+
+  useEffect(() => {
+    sessionStorage.setItem('dashboard-status', statusFilter)
+  }, [statusFilter])
 
   const loadPosts = useCallback(async () => {
     setLoading(true)
