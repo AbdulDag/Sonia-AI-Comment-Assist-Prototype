@@ -232,4 +232,4 @@ frontend/src/
 | `GET` | `/api/posts/export` | Download all posts as CSV |
 | `GET` | `/api/stats` | Dashboard metrics |
 
-Full interactive docs: `http://localhost:8000/docs`
+Once the backend is running, FastAPI's auto-generated interactive docs are at `http://localhost:8000/docs`.
