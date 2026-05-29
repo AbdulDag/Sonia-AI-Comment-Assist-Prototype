@@ -96,7 +96,7 @@ Set up the Sonia Comment-Assist project so it runs locally end-to-end. Here is e
 The database schema (table names, column names) and the Pydantic schema shapes in `backend/schemas.py` are treated as a contract by the frontend. Do not rename or restructure them without updating both sides.
 
 **Ingest fresh posts (optional)**
-Once the app is running, clicking "Ingest Posts" in the UI (or POST /api/posts/ingest) will pull new posts from Reddit's public JSON API and run them through the AI pipeline. This makes live Claude API calls and counts against the API key.
+Once the app is running, clicking "Ingest Posts" in the UI (or POST /api/posts/ingest) will pull new posts from the mock_posts json and run them through the AI pipeline. This makes live Claude API calls and counts against the API key.
 
 Tell me when both servers are running and the health check passes.
 ````
@@ -180,7 +180,7 @@ Every ingested post passes through three sequential Claude calls:
 
 2. **Safety classification** — returns `allow`, `flag`, or `block`. Blocked posts (active crisis, minors, self-harm, legal situations) never receive a draft and are hidden from the main feed. Flagged posts (medical claims, recent grief, privacy concerns) surface for human judgement. Safety is the highest-priority concern; the classifier is instructed to err on the side of flagging when uncertain.
 
-3. **Comment drafting** — only runs for posts that passed safety. Produces a 2–4 sentence comment written from the perspective of a genuine Sonia user. The system prompt hard-bans diagnostic language, fear-based framing, and any claim that Sonia treats or replaces professional care.
+3. **Comment drafting** — only runs for posts that passed safety. Produces a 2–4 sentence comment written from the perspective of a Sonia team member. The system prompt hard-bans diagnostic language, fear-based framing, and any claim that Sonia treats or replaces professional care.
 
 JSON responses from Claude are enforced via assistant prefilling (the model is forced to begin its reply with `{`) and retried once on parse failure.
 
