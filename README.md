@@ -5,6 +5,9 @@ An internal growth tool for Sonia's team. It ingests realistic mock data for pla
 **Nothing is ever posted automatically.** A human reviewer approves, edits, rejects, or flags every comment.
 
 ---
+## Demo
+
+https://github.com/user-attachments/assets/c94a2449-ce26-4234-b96e-8e3ba1b4ef54
 
 ## Quick Start
 
