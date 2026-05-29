@@ -1,6 +1,6 @@
 # Sonia Comment-Assist
 
-An internal growth tool for Sonia's team. It ingests public posts from Reddit (and realistic mock data for platforms without accessible APIs), runs each post through an AI-powered relevance and safety pipeline, drafts a candidate comment via Claude, and queues everything for human review before anything goes live.
+An internal growth tool for Sonia's team. It ingests realistic mock data for platforms, runs each post through an AI-powered relevance and safety pipeline, drafts a candidate comment via Claude, and queues everything for human review before anything goes live.
 
 **Nothing is ever posted automatically.** A human reviewer approves, edits, rejects, or flags every comment.
 
