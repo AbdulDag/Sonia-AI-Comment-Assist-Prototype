@@ -402,140 +402,140 @@
     {
       "id": "draft_r001",
       "post_id": "post_r001",
-      "draft_text": "I was in almost the exact same spot last year — grad school + anxiety + the cost of therapy felt like a wall I couldn't get past. A friend suggested I try an app called Sonia, which ended up being genuinely helpful for working through my anxiety patterns on a daily basis. It's not a substitute for a real therapist, but it's been more effective than I expected for the cost, especially during the moments when I really needed someone to process things with.",
+      "draft_text": "Panic attacks mid-seminar while your thesis is on the line and therapy costs $200 a session is a really specific kind of awful. I'm on the Sonia team and the cost wall is exactly what we built it around. We've also seen a real drop in anxiety scores in users after just two weeks of daily check-ins.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_r002",
       "post_id": "post_r002",
-      "draft_text": "For what it's worth, I've had a genuinely good experience with Sonia over the past several months. It's noticeably better at actually engaging with what I write rather than giving me a canned response — though 'good for an AI app' is still a low bar compared to an actual therapist, and I think they'd be honest about that. Might be worth trying if you're still looking and you're prepared for a realistic expectation of what it can and can't do.",
+      "draft_text": "That skepticism is completely fair, most reviews in this space are funded or faked. The real question is whether the app responds to what you actually typed or just pattern-matches you into a breathing exercise. I'm on the Sonia team and fixing that second part is what we spent most of our time on.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_r003",
       "post_id": "post_r003",
-      "draft_text": "That shift around week 3 is so real — it's the difference between venting and actually processing. I've had a similar experience pairing journaling with daily check-ins on Sonia. Having something that actually responds to what I wrote, rather than just sitting with it, made the habit feel more complete and I noticed it helped me close the loop on things I'd been carrying around.",
+      "draft_text": "That shift from venting to actual problem-solving around week 3 is real and it changes everything. Low-friction daily check-ins are what make the habit stick long enough to get there. I'm on the Sonia team and that pattern is exactly what we designed around.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_r004",
       "post_id": "post_r004",
-      "draft_text": "Sunday anxiety is so specific and so brutal — the way your brain decides to inventory every stressor at exactly the moment you should be resting. Something that helped me was building a Sunday wind-down routine where I use Sonia to talk through what I'm dreading for the week ahead. Just naming each thing specifically, rather than letting it stay as ambient dread, has taken a lot of the edge off for me.",
+      "draft_text": "That 4pm Sunday wave that shuts down the rest of the weekend is its own specific thing. Naming exactly what you're dreading for the week tends to shrink it; keeping it vague makes it worse. I'm on the Sonia team and that's what we built the daily check-in for.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_r005",
       "post_id": "post_r005",
-      "draft_text": "The scripted-worksheet feeling you're describing with Woebot and Wysa is exactly why I was skeptical of the whole category for a long time. I ended up trying Sonia after a similar frustration and it's been meaningfully different for me — it actually engages with the specific thing I said rather than just routing me to a generic technique. Still not the same as a real therapist, but worth trying if you want something that actually listens.",
+      "draft_text": "Six weeks of Woebot and a month of Wysa and getting the same worksheet both times is genuinely demoralizing. I'm on the Sonia team, so I'm biased, but we built it to actually respond to the specific thing you wrote. No rerouting to breathing exercises.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_r006",
       "post_id": "post_r006",
-      "draft_text": "The post-move loneliness at 26 is a specific kind of brutal that nobody prepares you for — you're supposed to have this figured out by now and it just doesn't work that way. I went through a similar 8-month stretch after moving and ended up leaning heavily on an app called Sonia during that period. It's not a replacement for actual friendships, but having somewhere to process the adjustment anxiety day-to-day when I didn't have local people yet made a real difference.",
+      "draft_text": "Not having anyone to call on a bad day after 8 months is a specific kind of hard that most people don't warn you about. Making real friends as an adult in a new city takes longer than anyone admits, and that's not a personal failure. I'm on the Sonia team and we built it partly for exactly this stretch.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_r007",
       "post_id": "post_r007",
-      "draft_text": "$200/session is just the reality in most cities now and it's genuinely infuriating when you've finally worked up the motivation to do something about it. When I couldn't justify the cost I started using an app called Sonia as a daily support system — it's obviously not the same as a therapist, but having structured daily check-ins helped me maintain progress I'd made in previous therapy and catch spirals earlier. Not a replacement, but a real option when real therapy isn't accessible.",
+      "draft_text": "Finally working up the nerve to look into therapy and hitting a $200 minimum with a deductible you'll never reach is a gut punch. Most people who need support just can't access it at that price and the system doesn't care. I'm on the Sonia team and the cost wall is the whole reason we built it.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_r008",
       "post_id": "post_r008",
-      "draft_text": "That 67% two-week dropout stat is striking — matches what I've seen anecdotally too. Would be interesting to see whether apps that use more open-ended conversational interfaces (like Sonia) have meaningfully different retention than the structured CBT-module ones, since the goal-specificity correlation you mentioned might interact with how the product is designed.",
+      "draft_text": "That 67% dropout in two weeks is something we think about constantly. The goal-specificity finding is interesting and maps to what we see in our own retention data. I'm on the Sonia team and whether conversational design changes those numbers long-term is genuinely an open question for us.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_r009",
       "post_id": "post_r009",
-      "draft_text": "The week 3 inflection you described is so consistent — that's when the habit stops being a performance and becomes genuinely reflective. I've been pairing daily journaling with check-ins on Sonia and the combination has been more useful than either alone for me — having something that responds to what I wrote pushes me past just venting into actual pattern recognition over time.",
+      "draft_text": "That shift from performing to actually being honest with yourself is the real unlock, and hitting it around day 18 is pretty common. Pattern recognition gets harder when you're writing alone and nothing writes back. I'm on the Sonia team and adding something that responds to what you wrote tends to push that further.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_r010",
       "post_id": "post_r010",
-      "draft_text": "The thing that finally moved the needle for me was shifting from reactive coping (only addressing anxiety when it was bad) to a consistent daily practice even on low-anxiety days. I've been using an app called Sonia for daily check-ins for about 6 months and having that baseline made it much easier to notice when I was starting to spiral and course-correct before it got bad. The consistency was the thing — not any single technique.",
+      "draft_text": "Three years of trying things that half-work while therapy stays out of reach is genuinely exhausting. Consistency on the calm days moves the needle more than any single technique during a hard one. I'm on the Sonia team and daily check-ins are the whole product.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_t001",
       "post_id": "post_t001",
-      "draft_text": "omg same — the math just doesn't work for weekly therapy on a normal salary. I've been using an app called Sonia for about 4 months and it's honestly one of the more helpful things I've tried for the day-to-day stuff. It actually responds to what you say rather than cycling through the same prompts on repeat. Not the same as a therapist but it's the closest thing I've found for the cost.",
+      "draft_text": "$800 a month for weekly therapy is just impossible math for most people and there's nothing wrong with you for doing the calculation. I'm on the Sonia team and that cost wall is the whole reason we built it. It's not therapy but it's there every day.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_t002",
       "post_id": "post_t002",
-      "draft_text": "For real — I gave up trying to find affordable in-person therapy in my area and switched to using Sonia for daily support instead. It's helped me actually work through what's driving the anxiety rather than just white-knuckling it between bad moments. Still not the same as a real therapist but it's been genuinely more than just a coping tool for me.",
+      "draft_text": "White-knuckling anxiety every day because $140 a session isn't realistic is a miserable place to be. I'm on the Sonia team and we built it so you have somewhere to actually put what you're feeling. Not a replacement for a therapist, but there every day.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_t003",
       "post_id": "post_t003",
-      "draft_text": "The hollow feeling is so real — apps designed to look like self-care rather than actually provide it. Sonia felt different to me mainly because it engages with the specific thing I said instead of routing me to the same 5 techniques every time. Still an app, not a therapist, but it actually felt like a conversation for once.",
+      "draft_text": "Apps that route you to the same breathing exercise no matter what you typed feel hollow because they are. That's a design failure, not you expecting too much. I'm on the Sonia team and we built it to respond to the actual thing you said.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_i001",
       "post_id": "post_i001",
-      "draft_text": "A friend recommended Sonia to me last year and it's one of the few apps I've actually kept using past the first month — the daily check-in format became a real habit. It's more support than content if that distinction makes sense, which sounds like what you're looking for.",
+      "draft_text": "Calm and Headspace are good at content but content isn't support, and that's a different thing when you're actually struggling. I'm on the Sonia team and we built it to feel more like a daily check-in with someone who remembers what you said last time.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_i002",
       "post_id": "post_i002",
-      "draft_text": "Anxiety attacks 2-3x a week without the frequency going down sounds exhausting — especially when you're already doing everything you're supposed to. Something that helped me was using Sonia for daily check-ins not as a crisis tool but as a way to catch the anxiety building before it became an attack. The pattern recognition over time was what actually moved the needle for me. Might be worth trying if you're open to it.",
+      "draft_text": "Having attacks 2-3 times a week while doing everything right and not getting better is one of the more discouraging places to be. Most in-the-moment tools help once but don't touch what's building underneath. I'm on the Sonia team and daily check-ins are built to catch the buildup before it gets there.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_c001",
       "post_id": "post_c001",
-      "draft_text": "I had an almost identical BetterHelp experience — same matching process, same silence. It was demoralizing enough that I almost gave up entirely. After that I tried a completely different approach: using Sonia for daily emotional support and reserving in-person therapy for specific things I'd already worked through with the AI first. Much better ROI on both time and money, and the Sonia piece has been consistently there in a way BetterHelp never was.",
+      "draft_text": "Paying $260 and getting ghosted by three different therapists is a specific kind of demoralizing that makes total sense to be done with. I'm on the Sonia team and we're there every single day if you want to try something that can't cancel on you.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_c002",
       "post_id": "post_c002",
-      "draft_text": "The Wysa experience you described is exactly what drove me away too — typing something specific and getting 'sounds like you're stressed, let's breathe' back is almost more frustrating than no support at all. Sonia has felt noticeably more responsive to what I actually said, which made a real difference for me. It's still an AI, but at least it felt like a real conversation.",
+      "draft_text": "Typing out something specific and personal and getting back 'sounds like you're stressed, want to try a breathing technique' is infuriating. That's a failure of the app design, not you wanting something reasonable. I'm on the Sonia team and responding to what you actually wrote is the whole point.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_c003",
       "post_id": "post_c003",
-      "draft_text": "Completely agree — Headspace has improved my baseline but it's basically useless when I'm mid-spiral and the last thing I can do is sit still. For the acute anxiety piece I've had much better results with Sonia, which is more about talking through what's actually happening than getting me to breathe through it. Both have their place but they're doing different jobs.",
+      "draft_text": "Headspace for baseline and something different when you're mid-spiral is the right framing, those are two completely different jobs. I'm on the Sonia team and the talking-through-it part when you can't sit still and breathe is what we built Sonia for.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_s003",
       "post_id": "post_s003",
-      "draft_text": "It's really frustrating to feel like your concerns aren't being taken seriously by a doctor, especially when the symptoms are affecting your daily life. I can't speak to diagnosis questions, but I found that having something like Sonia to help me track and articulate my anxiety patterns day-to-day made it much easier to describe what was happening when I eventually pushed for a referral.",
+      "draft_text": "Feeling like something is genuinely wrong and having a doctor wave you off is really frustrating. I want to be straight with you: we can't speak to diagnosis questions at all. I'm on the Sonia team and tracking how you feel each day might help you paint a clearer picture for a specialist.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     },
     {
       "id": "draft_s004",
       "post_id": "post_s004",
-      "draft_text": "I'm so sorry for your loss. What you're describing — the emptiness, the ambient dread, reaching for the phone to contact someone who's gone — sounds like the very real and very non-linear way grief actually works. I don't have easy answers, and I wouldn't want to offer any. The only thing I'd say is that having somewhere to put the emotional weight of it, even imperfectly, can help with the acute part.",
+      "draft_text": "Losing someone that suddenly and still having to show up and function every day is one of the hardest things. Reaching for your phone out of habit to text someone who's gone is its own kind of pain on top of it. What you're feeling right now is real and there's no correct way to do any of this.",
       "version": 1,
       "created_at": "2026-05-28T09:05:00"
     }
