@@ -47,7 +47,7 @@ uvicorn backend.main:app --reload
 
 API runs at `http://localhost:8000`. Interactive docs at `http://localhost:8000/docs`.
 
-### 4. Start the frontend
+### 4. open new terminal and start the frontend
 
 ```bash
 cd frontend
